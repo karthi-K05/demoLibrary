@@ -29,7 +29,6 @@ public class Book {
 	private String title;
 	
 	@ManyToOne
-//	@JsonIgnore
 	private Author author;
 	
 	public Book() {
@@ -59,6 +58,11 @@ public class Book {
 
 	public void setAuthor(Author author) {
 		this.author = author;
+	}
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + "]";
 	}
 
 	

@@ -62,9 +62,9 @@ public class BookController {
 		return ResponseEntity.ok("Book Deleted Successfully");
 	}
 	
-//	@PutMapping
-//	public ResponseEntity<String> updateBook(@RequestBody Book book) {
-//		bookService.updateBook(book);
-//		return new ResponseEntity<String>("Book Added Successfully", HttpStatus.ACCEPTED);
-//	}
+	@PutMapping("/{bookId}")
+	public ResponseEntity<String> updateBookById(@PathVariable int bookId, @RequestBody Book book) {
+		bookService.updateBookById(bookId, book);
+		return ResponseEntity.accepted().body("Book Updated Successfully");
+	}
 }

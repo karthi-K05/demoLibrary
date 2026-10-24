@@ -19,6 +19,9 @@ public class AuthorService {
 	}
 	
 	public void addAuthor(Author author) {
+		if(author.getBooks() != null) {
+			author.getBooks().forEach(b -> b.setAuthor(author));
+		}
 		authorRepo.save(author);
 	}
 

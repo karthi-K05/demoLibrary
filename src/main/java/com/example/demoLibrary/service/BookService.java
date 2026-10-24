@@ -5,14 +5,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demoLibrary.entity.Author;
 import com.example.demoLibrary.entity.Book;
+import com.example.demoLibrary.repository.AuthorRepository;
 import com.example.demoLibrary.repository.BookRepository;
 
 @Service
 public class BookService {
 
 	private BookRepository bookRepo;
+	@Autowired
+	private AuthorRepository authorRepo;
 
 	@Autowired
 	public BookService(BookRepository bookRepo) {
@@ -36,10 +41,13 @@ public class BookService {
 		bookRepo.deleteById(bookId);
 	}
 
-//	public void updateBook(Book book) {
-//		Optional<Book> book1 = bookRepo.findById(book.getId());
-//		book
-//	}
-	
-	
+	@Transactional
+	public void updateBookById(int id, Book book) {
+		Book b = getBookById(id);
+		b.setTitle(book.getTitle());
+		Author a = authorRepo.findById(b.getAuthor().getId()).orElseThrow(() -> new RuntimeException(
+									"Author not found" + b.getAuthor().getId()));
+		b.setAuthor(a);
+	}
+
 }
