@@ -25,7 +25,15 @@ public class BookService {
 	}
 
 	public void addBook(Book book) {
-		bookRepo.save(book);
+
+	    Integer authorId = book.getAuthor().getId();
+
+	    Author author = authorRepo.findById(authorId)
+	            .orElseThrow(() -> new RuntimeException("Author not found"));
+
+	    book.setAuthor(author);
+
+	    bookRepo.save(book);
 	}
 
 	public Book getBookById(int bookId) {

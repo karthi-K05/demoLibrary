@@ -1,23 +1,16 @@
--- Authors
-INSERT INTO author (id, name) VALUES (1, 'George Orwell')    ON CONFLICT (id) DO NOTHING;
-INSERT INTO author (id, name) VALUES (2, 'J.K. Rowling')     ON CONFLICT (id) DO NOTHING;
-INSERT INTO author (id, name) VALUES (3, 'Agatha Christie')  ON CONFLICT (id) DO NOTHING;
-INSERT INTO author (id, name) VALUES (4, 'R.K. Narayan')     ON CONFLICT (id) DO NOTHING;
-INSERT INTO author (id, name) VALUES (5, 'Chetan Bhagat')    ON CONFLICT (id) DO NOTHING;
+INSERT INTO author (name) VALUES ('George Orwell')   ON CONFLICT (name) DO NOTHING;
+INSERT INTO author (name) VALUES ('J.K. Rowling')    ON CONFLICT (name) DO NOTHING;
+INSERT INTO author (name) VALUES ('Agatha Christie') ON CONFLICT (name) DO NOTHING;
+INSERT INTO author (name) VALUES ('R.K. Narayan')    ON CONFLICT (name) DO NOTHING;
+INSERT INTO author (name) VALUES ('Chetan Bhagat')   ON CONFLICT (name) DO NOTHING;
 
--- Books (author_id is the foreign key)
-INSERT INTO book (id, title, author_id) VALUES (1,  '1984', 1)                                        ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (2,  'Animal Farm', 1)                                 ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (3,  'Homage to Catalonia', 1)                         ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (4,  'Harry Potter and the Philosopher''s Stone', 2)   ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (5,  'Harry Potter and the Chamber of Secrets', 2)    ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (6,  'Murder on the Orient Express', 3)               ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (7,  'And Then There Were None', 3)                   ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (8,  'Death on the Nile', 3)                          ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (9,  'Malgudi Days', 4)                               ON CONFLICT (id) DO NOTHING;
-INSERT INTO book (id, title, author_id) VALUES (10, 'The Guide', 4)                                  ON CONFLICT (id) DO NOTHING;
-
--- Move the ID sequences past the manual IDs, so books/authors
--- created through the API don't collide with these rows
-ALTER SEQUENCE author_seq RESTART WITH 1000;
-ALTER SEQUENCE book_seq   RESTART WITH 1000;
+INSERT INTO book (title, author_id) SELECT '1984',                                    id FROM author WHERE name = 'George Orwell';
+INSERT INTO book (title, author_id) SELECT 'Animal Farm',                             id FROM author WHERE name = 'George Orwell';
+INSERT INTO book (title, author_id) SELECT 'Homage to Catalonia',                     id FROM author WHERE name = 'George Orwell';
+INSERT INTO book (title, author_id) SELECT 'Harry Potter and the Philosopher''s Stone', id FROM author WHERE name = 'J.K. Rowling';
+INSERT INTO book (title, author_id) SELECT 'Harry Potter and the Chamber of Secrets',  id FROM author WHERE name = 'J.K. Rowling';
+INSERT INTO book (title, author_id) SELECT 'Murder on the Orient Express',            id FROM author WHERE name = 'Agatha Christie';
+INSERT INTO book (title, author_id) SELECT 'And Then There Were None',                id FROM author WHERE name = 'Agatha Christie';
+INSERT INTO book (title, author_id) SELECT 'Death on the Nile',                       id FROM author WHERE name = 'Agatha Christie';
+INSERT INTO book (title, author_id) SELECT 'Malgudi Days',                            id FROM author WHERE name = 'R.K. Narayan';
+INSERT INTO book (title, author_id) SELECT 'The Guide',                               id FROM author WHERE name = 'R.K. Narayan';
