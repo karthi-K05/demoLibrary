@@ -27,21 +27,15 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-	public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("user123")).roles("USER").build();
-		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("admin123")).roles("ADMIN").build();
-		
-		return new InMemoryUserDetailsManager(user, admin);
-	}
-	
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		  		http.
 		  			csrf(csrf -> csrf.disable())
-		  			.authorizeHttpRequests(auth -> 
-		  			 auth.requestMatchers(HttpMethod.GET, "/api/library/**").permitAll()
+		  			.authorizeHttpRequests(auth -> auth
+		  			.requestMatchers("/error").permitAll()
+		  			.requestMatchers(HttpMethod.GET, "/api/library/**").permitAll()
+		  			.requestMatchers("/api/library/user").permitAll()
 		  			.requestMatchers("/api/library/**").hasRole("ADMIN")
 		  			.anyRequest().authenticated())
 		  			.httpBasic(Customizer.withDefaults());
